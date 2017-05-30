@@ -62,12 +62,10 @@ class PSO {
         const int dim;
         // Swarm size
         const int swarm_size;
-        // maximum # of iterations
+        // Maximum # of iterations (stopping condition #1)
         const int max_iter;
-        // Solution (for testing purposes)
-        const double target;
-        // Error threshold
-        double threshold;
+        // Maximum # of stall generations (stopping condition #2)
+        const int max_stall_iter;
         // Inertia weight
         const double wi;
         const double wf;
@@ -75,13 +73,13 @@ class PSO {
         const double c1, c2;
         // Limit on velocity
         std::vector<double> Vmax;
-        // Stopping condition
+        // Stopping condition selection
         const bool mode;
 
         /******** UTILITY FUNCTIONS ********/
 
         void equation1 (int index, int iter);
-        void equation2 (int index);
+        void equation2 (int index, int& stall_iter);
         double random_float (double a, double b) const;
         void set_x_global (const particle& p);
         void print_result () const;
@@ -89,7 +87,7 @@ class PSO {
 
     public:
 
-        PSO (int dim, int swarm_size, int max_iter, double target, double threshold, double wi, double wf, double c1, double c2, double k, bool mode);
+        PSO (int dim, int swarm_size, int max_iter, int max_stall_iter, double wi, double wf, double c1, double c2, double k, bool mode);
         double optimize ();
 };
 

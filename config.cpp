@@ -40,11 +40,6 @@ int SWARM_SIZE = 20;
 int MAX_ITER = 1000000;
 int MAX_STALL_ITER = 1000;
 
-// Optimal function value
-double TARGET = 0.0;
-
-double THRESHOLD = 0.1;
-
 // Inertia weight (0 <= WI <= 2, 0 <= WF <= 2)
 double WI = 0.9;
 double WF = 0.4;
@@ -60,4 +55,4 @@ double K = 0.1;
  * MODE = 1: Stopping condition max_stall_iter
  * MODE = 0: Stopping condition max_iter
  */
-bool MODE = 0;
+bool MODE = 1;

@@ -36,7 +36,7 @@ int main() {
     
     using namespace std::chrono;
 
-    PSO p (DIM, SWARM_SIZE, MAX_ITER, TARGET, THRESHOLD, WI, WF, C1, C2, K, MODE);
+    PSO p (DIM, SWARM_SIZE, MAX_ITER, MAX_STALL_ITER, WI, WF, C1, C2, K, MODE);
     // Print global best
     std::cout << p.optimize() << std::endl;
 

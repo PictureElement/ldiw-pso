@@ -43,11 +43,6 @@ extern int SWARM_SIZE;
 extern int MAX_ITER;
 extern int MAX_STALL_ITER;
 
-// Optimal function value
-extern double TARGET;
-
-extern double THRESHOLD;
-
 // Inertia weight (0 <= WI <= 2, 0 <= WF <= 2)
 extern double WI;
 extern double WF;

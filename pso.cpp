@@ -28,7 +28,7 @@
 
 #include "pso.h"
 
-PSO::PSO (int dim, int swarm_size, int max_iter, double target, double threshold, double wi, double wf, double c1, double c2, double k, bool mode) : dim (dim), value_global (0.0), swarm_size (swarm_size), max_iter (max_iter), target (target), threshold (threshold), wi (wi), wf (wf), c1 (c1), c2 (c2), mode (mode) {
+PSO::PSO (int dim, int swarm_size, int max_iter, int max_stall_iter, double wi, double wf, double c1, double c2, double k, bool mode) : dim (dim), value_global (0.0), swarm_size (swarm_size), max_iter (max_iter), max_stall_iter (max_stall_iter), wi (wi), wf (wf), c1 (c1), c2 (c2), mode (mode) {
 
 		bounds.resize (dim);
     double lo, up;
@@ -101,61 +101,50 @@ double PSO::optimize () {
 		// # of iterations
     int iter = 0;
 
-    // mode = 0: 
+    // # of stall iterations
+    int stall_iter = 0;
+
+    // Maximum # of iterations (stopping condition #1)
     if (mode == 0) {
     		do {
-        		// For each particle.
+    				//cout << "Generation #" << iter+1 << "\n";
+
+        		// For each particle
             for (int j = 0; j < swarm_size; j++) {
 
                 // Update particle's velocity
                 equation1 (j, iter);
 
-                // Update particle's position, personal best and global best.
-                equation2 (j);
+                // Update particle's position, personal best and global best
+                equation2 (j, stall_iter);
             }
 
             iter++;
 
-        } while (iter < max_iter); //&& (abs(value_global-target) > threshold) );
+        } while (iter < max_iter);
+
 				return value_global;
     }
-    // mode = 1: optimization enabled.
+    // Maximum # of stall generations (stopping condition #2)
     else {
-        do{
+        do {
+        		//cout << "Generation #" << iter+1 << "\n";
 
-            //cout<<"GENERATION #"<<iter+1<<":\n\n";
+        		// For each particle
+            for (int j = 0; j < swarm_size; j++) {
 
-            // for each particle.
+            		// Update particle's velocity
+                equation1 (j, iter);
 
-            for(int j=0; j<swarm_size; j++){
-
-                /*
-                // print particle.
-                cout<<"Particle #"<<j+1<<":\n";
-                particles[j].print();
-                */
-
-                // update particle's velocity.
-                equation1(j,iter);
-
-                // update particle's position, personal best and global best.
-                equation2(j);
-                /*
-                if(flag == true)
-                    failure = false;
-                */
+              	// Update particle's position, personal best and global best
+            		equation2 (j, stall_iter);
             }
 
-            /*
-            if(failure == true)
-                num_failures ++;
-            */
-
-            //failure = true;
             iter++;
-        }while( iter<max_iter );//&& (abs(target-value_global) > threshold) );
-        double error = abs(value_global-target);
-        return error;//error;
+ 
+        } while (stall_iter < max_stall_iter);
+        
+        return value_global;
     }
 }
 
@@ -176,7 +165,7 @@ void PSO::equation1 (int index, int iter) {
 }
 
 // Update particle's position, personal best and global best
-void PSO::equation2 (int index) {
+void PSO::equation2 (int index, int& stall_iter) {
 
 		double value_x, value_x_local;
 		double xi;
@@ -208,9 +197,13 @@ void PSO::equation2 (int index) {
     // Update global best (x_global).
     {
     		if (value_x_local < value_global) {
+    				stall_iter = 0;
         		x_global = particles[index].get_x_local_vector ();
             value_global = particles[index].get_value_x_local ();
         }
+        else {
+        		stall_iter ++;
+       	}
     }
 }
 
