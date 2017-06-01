@@ -60,4 +60,4 @@ can select which function to use in *fitness.cpp*.
 
 ## Compilation
 
-$ g++ -std=c++11 -O3 cvt.cpp config.cpp particle.cpp fitness.cpp pso.cpp main.cpp
+![compilation compilation](material/compilation.png)
