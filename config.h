@@ -39,6 +39,10 @@ extern int DIM;
 // # of particles.
 extern int SWARM_SIZE;
 
+// Lower & upper range limits
+extern double LO;
+extern double UP;
+
 // Termination criterions
 extern int MAX_ITER;
 extern int MAX_STALL_ITER;
@@ -48,7 +52,9 @@ extern double WI;
 extern double WF;
 
 // Learning factors (0 <= C1 <= 4, 0 <= C1 <= 4, usually C1 = C2 = 2)
+// Cognitive coefficient
 extern double C1;
+// Social coefficient
 extern double C2;
 
 // Velocity clamping factor (0 < K <= 1)
@@ -59,5 +65,19 @@ extern double K;
  * MODE = 0: Stopping condition max_iter
  */
 extern bool MODE;
+
+//-------------------- CVT PARAMETERS (MANUALLY CONFIGURED) --------------------
+
+// # of sample points
+extern int Q;
+
+// # of iterations
+extern int EPOCHS;
+
+// A1, A2, B1, B2: parameters, where: A2 > 0, B2 > 0, A1 + A2 = 1, B1 + B2 = 1
+extern double A1;
+extern double A2;
+extern double B1; 
+extern double B2;
 
 #endif

@@ -28,22 +28,18 @@
 
 #include "pso.h"
 
-PSO::PSO (int dim, int swarm_size, int max_iter, int max_stall_iter, double wi, double wf, double c1, double c2, double k, bool mode) : dim (dim), value_global (0.0), swarm_size (swarm_size), max_iter (max_iter), max_stall_iter (max_stall_iter), wi (wi), wf (wf), c1 (c1), c2 (c2), mode (mode) {
+PSO::PSO (int dim, int swarm_size, double lo, double up, int max_iter, int max_stall_iter, double wi, double wf, double c1, double c2, double k, bool mode) : dim (dim), value_global (0.0), swarm_size (swarm_size), lo (lo), up (up), max_iter (max_iter), max_stall_iter (max_stall_iter), wi (wi), wf (wf), c1 (c1), c2 (c2), mode (mode) {
 
-		bounds.resize (dim);
-    double lo, up;
-    std::string id;
+		std::string id;
 
+		// Max velocity
+		Vmax = k * (up - lo);
+
+		// Dimension id
     for (int i = 0; i < dim; i++) {
+    		// Dimension id
     		id = "x" + std::to_string (i + 1);
         dim_id.push_back (id);
-        // Lower bound
-        lo = -5;
-        bounds[i].push_back(lo);
-        // Upper bound
-        up = 10;
-        bounds[i].push_back(up);
-        Vmax.push_back (k * (up - lo));
 		}
 
 		x_global.resize (dim);
@@ -57,7 +53,7 @@ PSO::PSO (int dim, int swarm_size, int max_iter, int max_stall_iter, double wi, 
     /* INITIALIZATION PROCESS */
 
     // CVT initialization
-    std::vector<point> init_points = CVT (swarm_size, 50000, dim, 5, bounds, 0.5, 0.5, 0.5, 0.5);
+    std::vector<point> init_points = CVT (SWARM_SIZE, Q, DIM, EPOCHS, LO, UP, A1, A2, B1, B2);
 
     double value_d;
 
@@ -69,7 +65,7 @@ PSO::PSO (int dim, int swarm_size, int max_iter, int max_stall_iter, double wi, 
             particles[i].set_x_local (value_d, j);
 
             // Initialize velocity
-            value_d = random_float (-abs (bounds[j][1] - bounds[j][0]), abs (bounds[j][1] - bounds[j][0]));
+            value_d = random_float (-abs (up - lo), abs (up - lo));
             particles[i].set_v (value_d, j);
         }
 
@@ -159,7 +155,7 @@ void PSO::equation1 (int index, int iter) {
 				w = ((wi - wf) * ((max_iter - iter) / max_iter)) + wf;
 				vi = w * particles[index].get_v (i) + c1 * random_float (0.0, 1.0) * (particles[index].get_x_local (i) - particles[index].get_x (i)) + c2 * random_float (0.0, 1.0) * (x_global[i] - particles[index].get_x(i));
 		  	// Set velocity clamping
-		   	v_update = bound (vi, -Vmax[i], Vmax[i]);
+		   	v_update = bound (vi, -Vmax, Vmax);
 		   	particles[index].set_v (v_update, i);
 	  }
 }
@@ -176,7 +172,8 @@ void PSO::equation2 (int index, int& stall_iter) {
     		// Update position
         xi = particles[index].get_x (i);
         vi = particles[index].get_v (i);
-        x_update = bound (xi+vi, bounds[i][0], bounds[i][1]);
+        // Clamp position within boundaries
+        x_update = bound (xi+vi, lo, up);
         // Update position
         particles[index].set_x (x_update,i);
     }

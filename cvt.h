@@ -37,11 +37,6 @@
 #include <cfloat>
 using namespace std;
 
-// Row of the matrix
-typedef vector<double> Row;
-// Matrix
-typedef vector<Row> Matrix;
-
 // Point class
 class point {
 		private:
@@ -52,7 +47,7 @@ class point {
 				point(int dim);
 				// Methods
 				void print();
-				void rand_init (const Matrix& bounds);
+				void rand_init (double lo, double up);
 				double sqr_dist (const point& q) const;
 				double get_term (int dim) const;
 				void set_term (int dim, double val);
@@ -67,7 +62,7 @@ double random_float (double a, double b);
  *	 q: # of sample points
  *   dim: dimensionality
  *   epochs: # of iterations
- *   bounds: search-space boundaries
+ *   lo, up: search-space boundaries
  *   a1, a2, b1, b2: parameters, where: a2>0, b2>0, a1+a2=1, b1+b2=1
  *
  * Output:
@@ -78,7 +73,8 @@ vector<point> CVT (
 	int q, 
 	int dim, 
 	int epochs, 
-	const Matrix& bounds, 
+	double lo,
+	double up,
 	double a1, 
 	double a2, 
 	double b1,

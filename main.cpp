@@ -26,45 +26,15 @@
  */
 
 #include <iostream>
-#include <fstream>
-#include <ctime>
-#include <chrono>
 #include "config.h"
 #include "pso.h"
 
 int main() {
+
+    PSO p (DIM, SWARM_SIZE, LO, UP, MAX_ITER, MAX_STALL_ITER, WI, WF, C1, C2, K, MODE);
     
-    using namespace std::chrono;
-
-    PSO p (DIM, SWARM_SIZE, MAX_ITER, MAX_STALL_ITER, WI, WF, C1, C2, K, MODE);
     // Print global best
-    std::cout << p.optimize() << std::endl;
-
-    /*
-    // Test 2: Epochs
-    int runs = 1;
-    double sum = 0.0;
-    for(int i=0; i<runs; i++){
-        //PSO(int dim, int swarm_size, int max_iter, double target, double threshold, double wi, double wf, double c1, double c2, double k, bool mode);
-        PSO p (DIM, SWARM_SIZE, MAX_ITER, TARGET, THRESHOLD, 0.9, 0.4, 2.0, 2.0, 0.1, MODE);
-        sum = sum + p.optimize();
-    }
-    std::cout<<"mean_iter = "<<sum/runs<<std::endl;
-
-    // Test 3: Execution Time
-    int runs = 50;
-    double sum = 0;
-    steady_clock::time_point t1 = steady_clock::now();
-    for(int i=0; i<runs; i++){
-        //PSO(int dim, int swarm_size, int max_iter, double target, double threshold, double wi, double wf, double c1, double c2, double k, bool mode);
-        PSO p(DIM, SWARM_SIZE, MAX_ITER, TARGET, THRESHOLD, 0.9, 0.4, 2.0, 2.0, 0.1, MODE);
-        sum = sum + p.optimize();
-    }
-    steady_clock::time_point t2 = steady_clock::now();
-    duration<double> time_span = duration_cast<duration<double>>(t2 - t1);
-    std::cout << "runs = " << runs << ", " << "interval = " << time_span.count() << " sec" <<std::endl;
-    std::cout << "mean error = " << sum/runs << std::endl;
-		*/
+    std::cout << "Global best: " << p.optimize() << std::endl;
 
     return 0;
 }

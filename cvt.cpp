@@ -40,9 +40,9 @@ void point::print () {
 		cout << terms[dim-1] << endl;
 }
 
-void point::rand_init (const Matrix& bounds) {
+void point::rand_init (double lo, double up) {
 		for (int i = 0; i < dim; i++)
-				terms[i] = random_float (bounds[i][0], bounds[i][1]);
+				terms[i] = random_float (lo, up);
 }
 
 double point::sqr_dist (const point& p) const {
@@ -68,28 +68,29 @@ double random_float (double a, double b) {
 		// Use a non-deterministic seed
 		static random_device rd;
 		// Mersenne_twister_engine is a random number engine
-		static mt19937 gen(rd());
-		// Produce a random number in the range [a,b)
-		uniform_real_distribution<double> distr (a,b);
-		return distr(gen);
+		static mt19937 gen (rd());
+		// Produce a random number in the range [a, b)
+		uniform_real_distribution<double> distr (a, b);
+		return distr (gen);
 }
 
-vector<point> CVT(
+vector<point> CVT (
 	int k, 
 	int q, 
 	int dim, 
 	int epochs, 
-	const Matrix& bounds,
+	double lo,
+	double up,
 	double a1, 
 	double a2, 
 	double b1, 
 	double b2
 ) {
 		// Row of the matrix
- 		typedef vector<point> Row;
- 		// Matrix
- 		typedef vector<Row> Matrix_2;
-
+	 	typedef vector<point> Row;
+	 	// Matrix
+	 	typedef vector<Row> Matrix;
+		
  		int iter = 0;
 
 /*----------------------------------------------------------------------------*/
@@ -101,7 +102,7 @@ vector<point> CVT(
 		// Initialize the generators by using a Monte Carlo method
 		for (int i = 0; i < k; i++) {
 				set_z.push_back (point (dim));
-				set_z[i].rand_init (bounds);
+				set_z[i].rand_init (lo, up);
 				index[i] = 1;
 		}
 
@@ -112,7 +113,7 @@ vector<point> CVT(
 		for (int i = 0; i < q; i++)
 				set_y.push_back (point (dim));
 
-		Matrix_2 set_w;
+		Matrix set_w;
 		set_w.resize (k);
 
 /*----------------------------------------------------------------------------*/
@@ -120,7 +121,7 @@ vector<point> CVT(
 		do {
 				// GENERATE q RANDOM POINTS (SAMPLING POINTS)
 				for (int i = 0; i < q; i++)
-						set_y[i].rand_init (bounds);
+						set_y[i].rand_init (lo, up);
 
 				// BUILD w (WHERE: w[i][] ARE SAMPLING POINTS CLOSEST TO z[i])
 				for (int i = 0; i < q; i++) {

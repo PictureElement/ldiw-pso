@@ -36,30 +36,30 @@
 #include <vector>
 #include "particle.h"
 #include "fitness.h"
+#include "config.h"
 #include "cvt.h"
-
-// Row of the matrix
-typedef std::vector<double> Row;
-typedef std::vector<Row> Matrix;
 
 class PSO {
 
-		private:
+	private:
 
-    		/******** DATA MEMBERS ********/
+    	/******** DATA MEMBERS ********/
 
-    		// Global best known position
+    	// Global best known position
         std::vector<double> x_global;
-        // Feasible region (boundaries)
-        Matrix bounds;
         // Id for each dimension
         std::vector<std::string> dim_id;
         // Output of fitness function corresponding to x_global
         double value_global;
+        // Limit on velocity
+        double Vmax;
         // Swarm of particles
         std::vector<particle> particles;
         // Dimensionality
         const int dim;
+        // Boundaries (Lower & Upper range limits)
+        const double lo;
+        const double up;
         // Swarm size
         const int swarm_size;
         // Maximum # of iterations (stopping condition #1)
@@ -71,8 +71,6 @@ class PSO {
         const double wf;
         // Learning factors
         const double c1, c2;
-        // Limit on velocity
-        std::vector<double> Vmax;
         // Stopping condition selection
         const bool mode;
 
@@ -87,7 +85,7 @@ class PSO {
 
     public:
 
-        PSO (int dim, int swarm_size, int max_iter, int max_stall_iter, double wi, double wf, double c1, double c2, double k, bool mode);
+        PSO (int dim, int swarm_size, double lo, double up, int max_iter, int max_stall_iter, double wi, double wf, double c1, double c2, double k, bool mode);
         double optimize ();
 };
 

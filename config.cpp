@@ -36,6 +36,10 @@ int DIM = 30;
 // # of particles
 int SWARM_SIZE = 20;
 
+// Lower & upper range limits
+double LO = -5;
+double UP = 10;
+
 // Termination criterions
 int MAX_ITER = 1000000;
 int MAX_STALL_ITER = 1000;
@@ -45,7 +49,9 @@ double WI = 0.9;
 double WF = 0.4;
 
 // Learning factors (0 <= C1 <= 4, 0 <= C1 <= 4, usually C1 = C2 = 2)
+// Cognitive coefficient
 double C1 = 2.0;
+// Social coefficient
 double C2 = 2.0;
 
 // Velocity clamping factor (0 < K <= 1)
@@ -56,3 +62,17 @@ double K = 0.1;
  * MODE = 0: Stopping condition max_iter
  */
 bool MODE = 1;
+
+//-------------------- CVT PARAMETERS (MANUALLY CONFIGURED) --------------------
+
+// # of sample points
+int Q = 100000;
+
+// # of iterations
+int EPOCHS = 10;
+
+// A1, A2, B1, B2: parameters, where: A2 > 0, B2 > 0, A1 + A2 = 1, B1 + B2 = 1
+double A1 = 0.5;
+double A2 = 0.5;
+double B1 = 0.5;
+double B2 = 0.5;
