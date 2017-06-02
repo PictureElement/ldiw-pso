@@ -52,7 +52,7 @@ For more details regarding, the calculation of the generator points for the
 approximate centroidal Voronoi tesselation please visit the dedicated 
 [repository](https://github.com/PictureElement/Approximate-CVT).
 
-## Fitness Functions
+## Objective Functions
 
 Five well-known benchmark problems are used to test the PSO. The test functions 
 are *Ackley*, *Griewank*, *Rastrigin*, *Rosenbrock*, and *De Jong's Sphere*. You 
