@@ -1,0 +1,54 @@
+<p style="font-family: Courier">
+  <span style="color: blue">
+    /*<br>
+    &nbsp;*&nbsp;Inputs:<br>
+    &nbsp;*&nbsp;&nbsp;s, swarm size<br>
+    &nbsp;*&nbsp;&nbsp;dim, dimensionality<br>
+    &nbsp;*&nbsp;&nbsp;c<sub>1</sub>, c<sub>2</sub>, learning factors<br>
+    &nbsp;*&nbsp;&nbsp;lo, up, search-space boundaries<br>
+    &nbsp;*<br>
+    &nbsp;*&nbsp;Output:<br>
+    &nbsp;*&nbsp;&nbsp;g, global optimal solution<br>
+    &nbsp;*/<br>
+  </span>
+  PSO (s, dim, c1, c2, lo, up) {
+  <br>
+  <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: blue">// Initialization process</span><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;for i &larr; 0 to s - 1 {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x<sub>i</sub> &larr; rand (lo, up)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p<sub>i</sub> &larr; x<sub>i</sub><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if i = 1<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g &larr; p<sub>i</sub><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if f (p<sub>i</sub>) < f (g)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g &larr; p<sub>i</sub><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v<sub>i</sub> &larr; rand (-|up - lo|, |up - lo|)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;}<br>
+  <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;<span style="color: blue">// Optimization process</span><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;do<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for i &larr; 0 to s - 1 {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;for d &larr; 0 to dim - 1 {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;v<sub>i,d</sub> &larr; v<sub>i,d</sub> + c<sub>1</sub> * rand (0, 1) * (p<sub>i,d</sub> - x<sub>i,d</sub>) + c<sub>2</sub> * rand (0, 1) * (g<sub>d</sub> - x<sub>i,d</sub>)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x<sub>i,d</sub> &larr; bound (x<sub>i,d</sub> + v<sub>i,d</sub>, lo, up)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if f (x<sub>i</sub>) < f (p<sub>i</sub>)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;p<sub>i</sub> &larr; x<sub>i</sub><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;if f (p<sub>i</sub>) < f (g)<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;g &larr; p<sub>i</sub><br>
+  &nbsp;&nbsp;&nbsp;&nbsp;while &lt;criteria&gt; are met<br>
+  <br>
+  &nbsp;&nbsp;&nbsp;&nbsp;return g<br>
+  }
+  <br>
+  <br>
+  <span style="color: blue">// Velocity bound</span><br>
+  bound (x, lo, up) {<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;if x < lo<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return lo<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;else if x > up<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return up<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;else<br>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;return x<br>
+  }
+</p>
