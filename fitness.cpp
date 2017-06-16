@@ -35,7 +35,7 @@ double fitness_funct (const std::vector<double>& var, bool flag, int dim) {
 		double product = 1.0;
 		for (int i = 0; i < dim; i++) {
 				sum = sum + (var[i] * var[i]);
-				product = product * cos (var[i] / sqrt(dim+1));
+				product = product * cos (var[i] / sqrt (dim+1));
 		}
 		double result = 1.0 + (sum / 4000.0) - product;
 		return result;
@@ -55,10 +55,10 @@ double fitness_funct (const std::vector<double>& var, bool flag, int dim) {
 
 	for (int i = 0; i < dim; i++) {
 			sum1 = sum1 + (var[i] * var[i]);
-			sum2 = sum2 + cos(c * var[i]);
+			sum2 = sum2 + cos (c * var[i]);
 	}
 
-	result = (-a * exp (-b * sqrt((1.0 / dim) * sum1))) - exp ((1.0 / dim) * sum2) + a + exp(1);
+	result = (-a * exp (-b * sqrt ((1.0 / dim) * sum1))) - exp ((1.0 / dim) * sum2) + a + exp (1);
 	return result;
 }
 

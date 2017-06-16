@@ -29,13 +29,13 @@
 #include "cvt.h"
 
 point::point (int dim) : dim (dim) {
-  	terms.resize(dim);
+  	terms.resize (dim);
 		for (int i = 0; i < dim; i++)
 				terms[i] = 0.0;
 }
 
 void point::print () {
-		for(int i=0; i<dim-1; i++)
+		for(int i=0; i < dim-1; i++)
 				cout << terms[i] << " ";
 		cout << terms[dim-1] << endl;
 }
@@ -48,7 +48,7 @@ void point::rand_init (double lo, double up) {
 double point::sqr_dist (const point& p) const {
 		double squared_dist = 0.0;
 		for (int i = 0; i < dim; i++)
-				squared_dist = squared_dist + (terms.at(i) - p.get_term(i)) * (terms.at(i) - p.get_term(i));
+				squared_dist = squared_dist + (terms.at (i) - p.get_term (i)) * (terms.at (i) - p.get_term (i));
 		return squared_dist;
 }
 
@@ -155,8 +155,8 @@ vector<point> CVT (
 								// Select point
 								for (int c = 0; c < set_w[b].size (); c++)
 										avg = avg + set_w[b][c].get_term (a);
-								avg = avg / set_w[b].size();
-								set_u[b].set_term (a,avg);
+								avg = avg / set_w[b].size ();
+								set_u[b].set_term (a, avg);
 						}
 				}
 

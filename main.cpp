@@ -29,12 +29,12 @@
 #include "config.h"
 #include "pso.h"
 
-int main() {
+int main () {
 
     PSO p (DIM, SWARM_SIZE, LO, UP, MAX_ITER, MAX_STALL_ITER, WI, WF, C1, C2, K, MODE);
     
     // Print global best
-    std::cout << "Global best: " << p.optimize() << std::endl;
+    std::cout << "Global best: " << p.optimize () << std::endl;
 
     return 0;
 }
